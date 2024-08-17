@@ -1,0 +1,32 @@
+def arbitrage(num1, num2):
+    # Convert the odds to implied probabilities
+    bet1 = 100 / (num1 + 100) if num1 > 0 else 100 / (abs(num1) + 100)
+    bet2 = 100 / (num2 + 100) if num2 > 0 else 100 / (abs(num2) + 100)
+    
+    # Calculate the sum of implied probabilities
+    sumVal = bet1 + bet2
+    
+    # Check for arbitrage opportunity
+    if sumVal >= 1:
+        print("The odds presented do not have an arbitrage point.")
+        return
+    
+    # Arbitrage exists, so calculate the optimal bet amounts
+    # Assuming a total investment of $100
+    total_investment = 100
+    
+    # Calculate the amount to bet on each outcome to ensure equal payout
+    bet_amount_1 = total_investment * (bet2 / sumVal)
+    bet_amount_2 = total_investment * (bet1 / sumVal)
+    
+    # Calculate potential payouts
+    payout1 = (bet_amount_1 * (abs(num1) / 100)) if num1 < 0 else (bet_amount_1 * (num1 / 100))
+    payout2 = (bet_amount_2 * (abs(num2) / 100)) if num2 < 0 else (bet_amount_2 * (num2 / 100))
+    
+    print(f"Bet ${bet_amount_1:.2f} on the first outcome.")
+    print(f"Bet ${bet_amount_2:.2f} on the second outcome.")
+    print(f"Guaranteed payout: ${min(payout1, payout2):.2f}")
+    
+# Example usage
+arbitrage(700, 200)
+arbitrage(-110,200)
